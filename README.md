@@ -30,6 +30,9 @@ npm run migrate:up
 then you will be able to just run the app and access swagger documentation on `/swagger-docs`
 
 ```bash
+# run it to generate metadata needed by the swagger
+$ npm run generate:metadata 
+
 # development
 $ npm run start
 
@@ -68,6 +71,12 @@ npm run migrate:generate <name> -- --sql-file
 ```
 
 ## FAQ
+
+#### Why the error handling is not of production grade?
+For the production usage I would extend the repository by implementing proper
+exception handling. Also, I would use better logger like [pino](https://www.npmjs.com/package/pino)
+and of course use it when it is needed. Keep in mind that this is simplified implementation
+of the node.js application
 
 #### Why the CI pipeline is not optimal?
 I did not have enough time to explore the Github Actions features but I am aware
