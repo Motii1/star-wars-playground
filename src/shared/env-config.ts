@@ -39,7 +39,11 @@ export class EnvConfig {
   }
 
   private static load(): EnvConfig {
-    dotenv.config();
+    if (process.env.NODE_ENV === 'test') {
+      dotenv.config({ path: `${process.cwd()}/.env.test` });
+    } else {
+      dotenv.config();
+    }
     return plainToInstance(EnvConfig, process.env, {
       exposeDefaultValues: true,
     });
