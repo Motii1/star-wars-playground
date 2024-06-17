@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "prebuild": "npm run generate:metadata",
     "build": "nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -20,7 +21,8 @@
     "test:e2e": "vitest run --config test/vitest.config.e2e.mts",
     "migrate:up": "db-migrate up",
     "migrate:down": "db-migrate down",
-    "migrate:generate": "db-migrate create"
+    "migrate:generate": "db-migrate create",
+    "generate:metadata": "ts-node ./generate-metadata.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

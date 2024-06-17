@@ -27,7 +27,7 @@ docker compose -f docker-compose-dev-deps.yml up -d
 npm run migrate:up
 ```
 
-then you will be able to just run the app
+then you will be able to just run the app and access swagger documentation on `/swagger-docs`
 
 ```bash
 # development
