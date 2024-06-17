@@ -7,7 +7,7 @@ import { CharacterInputDto } from '../src/api-gateway/dtos/character-input.dto';
 
 const sampleCreateDto: CharacterInputDto = {
   name: 'Sample',
-  episodes: [StarWarsEpisodes.ATTACK_OF_THE_CLONES],
+  episodes: [StarWarsEpisodes.ATTACK_OF_THE_CLONES, StarWarsEpisodes.NEW_HOPE],
 };
 
 describe('Characters CRUD integration tests', () => {
@@ -24,7 +24,7 @@ describe('Characters CRUD integration tests', () => {
   it('should receive empty list when there are no characters in the system', async () => {
     const response = await app.getPaginatedCharacters();
     expect(response.status).toEqual(200);
-    expect(response.data).toEqual({
+    expect(response.body).toEqual({
       totalPages: 1,
       totalItems: 0,
       hasMore: false,
@@ -35,21 +35,21 @@ describe('Characters CRUD integration tests', () => {
   it('should create a character and read it', async () => {
     const createResponse = await app.createCharacter(sampleCreateDto);
     expect(createResponse.status).toEqual(201);
-    expect(createResponse.data).toEqual(
+    expect(createResponse.body).toEqual(
       expect.objectContaining(sampleCreateDto),
     );
 
-    const readResponse = await app.getSingleCharacter(createResponse.data.id);
+    const readResponse = await app.getSingleCharacter(createResponse.body.id);
     expect(readResponse.status).toEqual(200);
-    expect(readResponse.data).toEqual(createResponse.data);
+    expect(readResponse.body).toEqual(createResponse.body);
 
     const paginatedReadResponse = await app.getPaginatedCharacters();
     expect(paginatedReadResponse.status).toEqual(200);
-    expect(paginatedReadResponse).toEqual({
+    expect(paginatedReadResponse.body).toEqual({
       totalPages: 1,
       totalItems: 1,
       hasMore: false,
-      items: [readResponse.data],
+      items: [readResponse.body],
     });
   });
 
@@ -70,11 +70,11 @@ describe('Characters CRUD integration tests', () => {
     const createResponse = await app.createCharacter(sampleCreateDto);
     expect(createResponse.status).toEqual(201);
 
-    const deleteResponse = await app.deleteCharacter(createResponse.data.id);
+    const deleteResponse = await app.deleteCharacter(createResponse.body.id);
     const readAfterDeletionResponse = await app.getSingleCharacter(
-      createResponse.data.id,
+      createResponse.body.id,
     );
-    expect(deleteResponse.status).toEqual(201);
+    expect(deleteResponse.status).toEqual(200);
     expect(readAfterDeletionResponse.status).toEqual(404);
   });
 
@@ -88,13 +88,18 @@ describe('Characters CRUD integration tests', () => {
     expect(createResponse.status).toEqual(201);
 
     const newName = 'Some other name';
-    const editResponse = await app.editCharacter(createResponse.data.id, {
+    const editResponse = await app.editCharacter(createResponse.body.id, {
       name: newName,
     });
+    const readEditedResponse = await app.getSingleCharacter(
+      createResponse.body.id,
+    );
     expect(editResponse.status).toEqual(200);
-    expect(editResponse.data).toEqual({
-      ...createResponse.data,
+    expect(readEditedResponse.status).toEqual(200);
+    expect(editResponse.body).toEqual({
+      ...createResponse.body,
       name: newName,
     });
+    expect(readEditedResponse.body).toEqual(editResponse.body);
   });
 });
