@@ -51,7 +51,8 @@ export class PostgresCharactersRepository implements CharactersRepository {
       .selectFrom('characters')
       .selectAll()
       .limit(pagination.perPage)
-      .offset(pagination.offset);
+      .offset(pagination.offset)
+      .orderBy('created_at', 'desc');
     const [result, total] = await Promise.all([
       query.execute(),
       this.countAll(),
