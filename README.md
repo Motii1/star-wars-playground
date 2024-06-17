@@ -69,6 +69,11 @@ npm run migrate:generate <name> -- --sql-file
 
 ## FAQ
 
+#### Why the CI pipeline is not optimal?
+I did not have enough time to explore the Github Actions features but I am aware
+that the jobs like unit and integration testing should be run in parallel and of course
+node_modules should be somehow cached and installed only once for the whole workflow
+
 #### Why everything is pushed directly to master?
 There is no reason to use any cool branching strategy for a sample app
 

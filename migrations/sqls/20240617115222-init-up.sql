@@ -1,0 +1,22 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TYPE "episode" AS ENUM (
+    'THE_PHANTOM_MENACE',
+    'ATTACK_OF_THE_CLONES',
+    'REVENGE_OF_THE_SITH',
+    'NEW_HOPE',
+    'THE_EMPIRE_STRIKES_BACK',
+    'RETURN_OF_THE_JEDI',
+    'THE_FORCE_AWAKENS',
+    'THE_LAST_JEDI',
+    'THE_RISE_OF_SKYWALKER'
+);
+
+CREATE TABLE "characters" (
+    "id"  UUID NOT NULL DEFAULT UUID_GENERATE_V4(),
+    "name" VARCHAR(255) NOT NULL,
+    "planet" VARCHAR(255),
+    "episodes" "episode"[] NOT NULL,
+    "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+    CONSTRAINT PK_characters PRIMARY KEY ("id")
+);
