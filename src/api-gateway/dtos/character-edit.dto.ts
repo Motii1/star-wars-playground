@@ -13,13 +13,13 @@ import {
 import { StarWarsEpisodes } from '../../shared/star-wars-episodes';
 
 export class CharacterEditDto {
-  @ValidateIf((v) => v !== undefined)
+  @ValidateIf((v) => v.name !== undefined)
   @IsString()
   @MinLength(1)
   @MaxLength(255)
   name?: string;
 
-  @ValidateIf((v) => v !== undefined)
+  @ValidateIf((v) => v.episodes !== undefined)
   @IsArray()
   @IsEnum(StarWarsEpisodes, { each: true })
   @ArrayMinSize(1)

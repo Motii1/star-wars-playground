@@ -4,7 +4,7 @@ import { StarWarsEpisodes } from './star-wars-episodes';
 interface CharactersTable {
   id: string;
   name: string;
-  planet: string;
+  planet: string | null;
   episodes: StarWarsEpisodes[];
   created_at: Date;
 }
